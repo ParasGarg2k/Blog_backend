@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-const userSchema = mongoose.Schema({
+const userSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true
@@ -13,9 +13,15 @@ const userSchema = mongoose.Schema({
     password: {
         type: String,
         required: true
-    }
+    },
+    createdAt: 
+    { type: Date,
+      default: Date.now 
+    },
+
 });
 
+// we dont need User because blogs will be posted from our side only 
 
 const user = mongoose.model('user', userSchema);
 
