@@ -1,16 +1,17 @@
 import mongoose from 'mongoose';
 
-const CommentSchema = mongoose.Schema({
+const CommentSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true,
     },
     postId: {
-        type: String,
-        required: true
+        type:mongoose.Schema.Types.ObjectId, 
+        ref:"post", 
     },
     date: {
-        type: String,
+        type: Date,
+        default:Date.now(),
         required: true
     },
     comments: {
