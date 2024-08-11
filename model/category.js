@@ -1,9 +1,13 @@
 import mongoose from 'mongoose';
 
-const CategorySchema = mongoose.Schema({
+const CategorySchema = new mongoose.Schema({
     name: {
         type: String,
         required: true
+    },
+    postId:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref:"post", 
     }
 });
 

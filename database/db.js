@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-const Connection = async (username, password) => {
+const Connection = async () => {
     const URL = process.env.MONGOURL;
     try {
         await mongoose.connect(URL, { useNewUrlParser: true })
