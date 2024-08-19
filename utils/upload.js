@@ -21,27 +21,20 @@ const uploadOnCloudinary = async (localFilePath)=>{
     try{
         if(!localFilePath) return null
 
-        if(localFilePath.fieldname === "coverImage"){
+        if(localFilePath.fieldname === 'banner'){
             const localPath = localFilePath.path;
             const response = await cloudinary.uploader.upload(localPath, {
                 resource_type: "auto",
-                    folder: "videoweb",
+                    folder: "postsimg",
                     width: 150,
                     crop: "scale",
             })
             fs.unlinkSync(localFilePath.path);
             return response
         }
-            const response = await cloudinary.uploader.upload(localFilePath, {
-                resource_type: "auto",
-                    folder: "videoweb",
-                    crop: "scale",
-                
-            })
-        fs.unlinkSync(localFilePath);
-        return response
+
     } catch(error){
-        if(localFilePath.fieldname === "coverImage"){
+        if(localFilePath.fieldname === "banner"){
         fs.unlinkSync(localFilePath.path) 
         }else{
             fs.unlinkSync(localFilePath)

@@ -1,25 +1,42 @@
-import express from 'express';
+import express from "express";
 
-import { createPost, deletePost, getPost, getAllPosts } from '../controller/post.controller.js';
-// import { uploadImage, getImage } from '../controller/image.controller.js';
-// import { newComment, getComments, deleteComment } from '../controller/comment.controller.js';
+import {
+  createPost,
+  deletePost,
+  getPost,
+  getAllPosts,
+} from "../controller/post.controller.js";
+import {
+  newComment,
+  getComments,
+  deleteComment,
+} from "../controller/comment.controller.js";
 
-// import upload from '../utils/upload.js';
+import { upload } from "../authentication/multer.js";
 
 const router = express.Router();
 
+router
+  .route("/create")
+  .get(getAllPosts)
+  .post(
+    upload.fields([
+      {
+        name: "banner",
+        maxCount: 1,
+      },
+    ]),
+    createPost
+  );
+router.delete("/delete/:id", deletePost);
 
-router.post('/create', createPost);
-router.delete('/delete/:id',  deletePost);
+router.get("/post/:id", getPost);
+router.get("/posts", getAllPosts);
 
-router.get('/post/:id', getPost);
-router.get('/posts',  getAllPosts);
+router.route("/create").get(getComments).post(createPost);
 
-// router.post('/file/upload', upload.single('file'), uploadImage);
-// router.get('/file/:filename', getImage);
-
-// router.post('/comment/new', newComment);
-// router.get('/comments/:id',  getComments);
-// router.delete('/comment/delete/:id', deleteComment);
+router.post("/comment/new", newComment);
+router.get("/comments/:id", getComments);
+router.delete("/comment/delete/:id", deleteComment);
 
 export default router;
