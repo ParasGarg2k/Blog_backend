@@ -2,7 +2,7 @@ import post from '../model/post.js';
 import user from '../model/user.js';
 
 
-const createPost = async (req, res) => {
+export const createPost = async (req, res) => {
     const {id} = req.user;
     const {title,description,banner,username,categories} = req.body;
     // validation (paras)
@@ -25,7 +25,7 @@ const createPost = async (req, res) => {
         res.status(500).json(
             {
                 success:false,
-                message:'Faild to create post'
+                message:'Failed to create post'
             }
         );
     }
@@ -37,11 +37,11 @@ const createPost = async (req, res) => {
         
 //         await post.delete()
 
-    response.status(200).json("post deleted successfully");
-  } catch (error) {
-    response.status(500).json(error);
-  }
-};
+//     response.status(200).json("post deleted successfully");
+//   } catch (error) {
+//     response.status(500).json(error);
+//   }
+// };
 
 export const getPost = async (request, response) => {
   try {
