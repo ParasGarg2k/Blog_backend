@@ -10,6 +10,15 @@ const userSchema = new mongoose.Schema({
         required: true,
         lowercase:true,
     },
+    role:{   
+        type:String,
+        default:"client",
+        enum:['admin','client'],
+    },
+    image:{
+        type:String,
+        required:true
+    },
     email:{
         type:String,
         required:true,

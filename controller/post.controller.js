@@ -1,44 +1,41 @@
-import Post from "../model/post.js";
-import { destroyCloudImage, uploadOnCloudinary } from "../utils/upload.js";
+import post from '../model/post.js';
+import user from '../model/user.js';
 
-export const createPost = async (req, response) => {
-  try {
-    console.log(req.body);
-    const { title, description, username } = req.body;
-    if (!(title && description && username)) {
-      response
-        .status(500)
-        .json("Please provide username , title and description");
+
+const createPost = async (req, res) => {
+    const {id} = req.user;
+    const {title,description,banner,username,categories} = req.body;
+    // validation (paras)
+    try {
+        const createdPost = await post.create({
+            title,
+            description,
+            banner,
+            username,
+            userId:id
+        })
+        const addPostToUser = await user.findOneAndUpdate({_id:id},{$push:{post:createdPost._id}},{new:true}).populate('post')
+        return res.status(200).json({
+            success:true,
+            post:createdPost,
+            message:"Post created successfully !",
+            updatedUser:addPostToUser
+        })
+    } catch (error) {
+        res.status(500).json(
+            {
+                success:false,
+                message:'Faild to create post'
+            }
+        );
     }
-    console.log(req.files);
-    const imageLocalPath = req.files?.banner[0]?.path;
-    if (!imageLocalPath) {
-      response.status(500).json("Please provide image");
-    }
-    console.log("upload call");
-    const image = await uploadOnCloudinary(imageLocalPath);
-    console.log("upload ret");
-    Post.create({
-      title,
-      description,
-      username,
-      banner: {
-        url: image.secure_url,
-        public_id: image.public_id,
-      },
-    });
-    response.status(201).json("Post Published Successfully");
-  } catch (error) {
-    response.status(500).json(error);
-  }
-};
+}
 
-export const deletePost = async (request, response) => {
-  try {
-    const post = await Post.findById(request.params.id);
-    console.log(post);
-
-    await post.findByIdAndDelete(request.params);
+// export const deletePost = async (request, response) => {
+//     try {
+//         const post = await Post.findById(request.params.id);
+        
+//         await post.delete()
 
     response.status(200).json("post deleted successfully");
   } catch (error) {
@@ -50,11 +47,11 @@ export const getPost = async (request, response) => {
   try {
     const post = await Post.findById(request.params.id);
 
-    response.status(200).json(post);
-  } catch (error) {
-    response.status(500).json(error);
-  }
-};
+        response.status(200).json(post);
+    } catch (error) {
+        response.status(500).json(error)
+    }
+}
 
 export const getAllPosts = async (request, response) => {
   let category = request.query.category;

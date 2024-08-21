@@ -20,12 +20,14 @@ const PostSchema = new mongoose.Schema({
   },
   userId:{
     type: mongoose.Schema.Types.ObjectId,
-    ref:'user'
+    ref:'user',
+    required:true,
   },
   categories: [
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: "category",
+      // required:true,
     },
   ],
   comments: [
