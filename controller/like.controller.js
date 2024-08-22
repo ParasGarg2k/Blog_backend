@@ -14,7 +14,10 @@ export const togglepostLike = async (req, res) => {
 
   try {
     if (!isValidObjectId(postId)) {
-      throw new ApiError(400, "Invalid post ID");
+      return res.status(401).json({
+        success:false,
+        message:"Invalid postid."
+    })
     }
 
     const { id } = req.user;
