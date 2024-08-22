@@ -52,7 +52,7 @@ const isAdmin = async(req,res,next)=>{
     }
     catch(err)
     {
-        return res.status.json({
+        return res.status(500).json({
             success:false,
             message:"User role cannot be verified"
         })

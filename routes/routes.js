@@ -21,5 +21,4 @@ router.post('/post/comment/create',authForUser,newComment)
 
 
 
-
 export default router;

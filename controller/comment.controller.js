@@ -39,7 +39,8 @@ export const newComment = async (req, res) => {
 
 export const getComments = async (request, response) => {
   try {
-    const comments = await Comment.find({ postId: request.params.id });
+    
+    const comments = await Comment.find({ postId: request.body });
 
     response.status(200).json(comments);
   } catch (error) {
@@ -49,7 +50,7 @@ export const getComments = async (request, response) => {
 
 export const deleteComment = async (req, response) => {
   try {
-    const { commentId } = req.params.id;
+    const { commentId } = req.body;
 
     if (!isValidObjectId(commentId)) {
       throw new ApiError(400, "Invalid comment ID");
